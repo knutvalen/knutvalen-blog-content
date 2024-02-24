@@ -8,4 +8,4 @@ The entire code we will be going through is available at GitHub, but you can rea
 git clone https://github.com/knutvalen/VIPER-architecture.git
 ```
 The app is simple. It shows information about the light side and the dark side of the Star Wars universe. It has a navigation bar that you can navigate to the other side using buttons to go back and forth between the view controllers.
-![alt text](https://github.com/knutvalen/knutvalen-web-app/blob/master/content/giphy.gif?raw=true)
+![alt text](https://github.com/knutvalen/knutvalen-blog-content/blob/master/viper/giphy.gif?raw=true)
