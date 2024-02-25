@@ -61,7 +61,7 @@ I like to call these protocols “types” because they define what a type of ea
 * Interactor reference to the Entity and the web service
 * Presenter reference to View, the Interactor and the Router
 * Entity reference to the models or data structures
-* Router has a `create()` function
+* Router has a create() function
 
 These are the key aspects for a VIPER module. There are more going on in these protocols that we will look into later, but for now this is all we need to know about the types to understand the basics of VIPER.
 
@@ -302,4 +302,4 @@ Navigating to the dark-side screen using the navigation bar will start the other
 ![alt text](https://github.com/knutvalen/knutvalen-blog-content/blob/master/viper/testsStructureImage.png?raw=true)
 The VIPER architectural pattern can make unit testing your code a delightful experience. You can easily write unit tests for any part of a VIPER module. By mocking and stubbing the other parts you can inject them as dependencies in the VIPER part (or system) under test. I added a complete set of unit tests to our app, specifically testing the two VIPER modules. There’s also a basic UI test included. I managed to get as much as 98% test coverage with these tests.
 ![alt text](https://github.com/knutvalen/knutvalen-blog-content/blob/master/viper/testCoverageImage.png?raw=true)
-You can run these tests in Xcode by hitting `command + U`.
+You can run these tests in Xcode by hitting command + U.
