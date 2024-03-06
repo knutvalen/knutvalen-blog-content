@@ -1,0 +1,23 @@
+{
+  "name": "knutvalen-blog-content",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "format-fix": "prettier . --write",
+    "format-check": "prettier . --check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knutvalen/knutvalen-blog-content.git"
+  },
+  "author": "Knut Valen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knutvalen/knutvalen-blog-content/issues"
+  },
+  "homepage": "https://github.com/knutvalen/knutvalen-blog-content#readme",
+  "devDependencies": {
+    "prettier": "3.2.5"
+  }
+}

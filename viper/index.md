@@ -5,10 +5,13 @@ VIPER is an implementation of clean architecture for iOS. This architectural pat
 We are now going to learn how to use the VIPER architecture for iOS by going through a fully working example.
 
 ## Implementation
+
 The entire code we will be going through is available at GitHub, but you can read along here without checking it out. You can clone it with
+
 ```shell
 git clone https://github.com/knutvalen/VIPER-architecture.git
 ```
+
 The app is simple. It shows information about the light side and the dark side of the Star Wars universe. It has a navigation bar that you can navigate to the other side using buttons to go back and forth between the view controllers.
 
 ![alt text](https://github.com/knutvalen/knutvalen-blog-content/blob/master/viper/giphy.gif?raw=true)
@@ -64,11 +67,11 @@ typealias JediListResponse = (_ jediList: [LightSideScreenEntityType.Jedi]?, _ e
 
 I like to call these protocols “types” because they define what a type of each VIPER part should implement. Here you can see that:
 
-* View reference to the Presenter
-* Interactor reference to the Entity and the web service
-* Presenter reference to View, the Interactor and the Router
-* Entity reference to the models or data structures
-* Router has a create() function
+- View reference to the Presenter
+- Interactor reference to the Entity and the web service
+- Presenter reference to View, the Interactor and the Router
+- Entity reference to the models or data structures
+- Router has a create() function
 
 These are the key aspects for a VIPER module. There are more going on in these protocols that we will look into later, but for now this is all we need to know about the types to understand the basics of VIPER.
 
@@ -83,12 +86,14 @@ class LightSideScreenRouter: LightSideScreenRouterType {
     ...
 }
 ```
+
 All VIPER parts have its own type, and here you can see that the LightSideScreenRouter inherits from the LightSideScreenRouterType. In the create() function of the LightSideScreenRouter the VIPER module is wired up and returns its View.
+
 ```swift
 class LightSideScreenRouter: LightSideScreenRouterType {
     static func create() -> UIViewController {
         let storyboard = UIStoryboard(name: "LightSideScreenView", bundle: .main)
-        
+
         if let view = storyboard.instantiateViewController(withIdentifier: "LightSideScreenView")
             as? LightSideScreenView
         {
@@ -96,20 +101,20 @@ class LightSideScreenRouter: LightSideScreenRouterType {
             let presenter = LightSideScreenPresenter()
             let entity = LightSideScreenEntity()
             let router = LightSideScreenRouter()
-            
+
             view.presenter = presenter
             interactor.entity = entity
             interactor.webService = FakeWebService()
             presenter.view = view
             presenter.interactor = interactor
             presenter.router = router
-            
+
             return view
         }
-        
+
         return UIViewController()
     }
-    
+
     func routeToDarkSideScreen(from view: LightSideScreenViewType?) {
         if let view = view as? UIViewController,
             let navigationController = view.navigationController
@@ -120,11 +125,11 @@ class LightSideScreenRouter: LightSideScreenRouterType {
             )
         }
     }
-    
+
 }
 ```
 
-We can now use this module as our initial screen by configuring it in the SceneDelegate. Opening the SceneDelegate at the project root level we can find the scene(_:willConnectTo:options:) function.
+We can now use this module as our initial screen by configuring it in the SceneDelegate. Opening the SceneDelegate at the project root level we can find the scene(\_:willConnectTo:options:) function.
 
 ```swift
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -136,11 +141,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let windowScene = scene as? UIWindowScene else { return }
-        
+
         let navigationController = UINavigationController(
             rootViewController: LightSideScreenRouter.create()
         )
-        
+
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
@@ -172,7 +177,7 @@ extension LightSideScreenView: LightSideScreenViewType {
 }
 
 extension LightSideScreenView: UICollectionViewDataSource {
-    ...   
+    ...
 }
 
 extension LightSideScreenView: UICollectionViewDelegateFlowLayout {
@@ -180,7 +185,7 @@ extension LightSideScreenView: UICollectionViewDelegateFlowLayout {
 }
 ```
 
-When the Router returns its view controller in its create() function, the view controller’s viewDidLoad() function will be invoked. Next, the viewDidAppear(_:) function will be invoked and this is where we invoke the Presenter’s viewDidAppear() function.
+When the Router returns its view controller in its create() function, the view controller’s viewDidLoad() function will be invoked. Next, the viewDidAppear(\_:) function will be invoked and this is where we invoke the Presenter’s viewDidAppear() function.
 
 ```swift
 override func viewDidLoad() {
@@ -216,7 +221,7 @@ private func onJediCode(
     _ error: LightSideScreenEntityType.Error?)
 {
     onLoaded(function: "onJediCode")
-    
+
     if let jediCode = jediCode {
         view?.set(jediCode: jediCode)
     }
@@ -227,7 +232,7 @@ private func onJediList(
     _ error: LightSideScreenEntityType.Error?)
 {
     onLoaded(function: "onJediList")
-    
+
     if let jediList = jediList {
         lightSideScreenJediList = jediList
         view?.refreshJediList()
@@ -257,7 +262,7 @@ private func onLoaded(function: String) {
 }
 ```
 
-The Presenter is also reacting to user events. When the user clicks the “Dark side” button in the navigation bar, it will invoke the View’s onDarkSideSelected(_:) function that first invokes the Presenter’s onDarkSideSelected() function that in turn will invoke the Router’s routeToDarkSideScreen(from:) function.
+The Presenter is also reacting to user events. When the user clicks the “Dark side” button in the navigation bar, it will invoke the View’s onDarkSideSelected(\_:) function that first invokes the Presenter’s onDarkSideSelected() function that in turn will invoke the Router’s routeToDarkSideScreen(from:) function.
 
 ```swift
 func onDarkSideSelected() {
@@ -278,7 +283,7 @@ class LightSideScreenInteractor {
 
 extension LightSideScreenInteractor: LightSideScreenInteractorType {
     ...
-    
+
     func getJediList(completionHandler: @escaping JediListResponse, useCache: Bool) {
         if let cache = entity?.jediList,
             useCache == true
@@ -286,20 +291,20 @@ extension LightSideScreenInteractor: LightSideScreenInteractorType {
             completionHandler(cache, nil)
             return
         }
-        
+
         webService?.request(path: "light-side-service/jedi-list", method: "GET") {
             (result: Result<[LightSideScreenEntityType.Jedi]?, LightSideScreenEntityType.Error>) in
             switch result {
             case let .success(jediList):
                 self.entity?.jediList = jediList
                 completionHandler(jediList, nil)
-                
+
             case let .failure(error):
                 completionHandler(nil, error)
             }
         }
     }
-    
+
     ...
 }
 ```
