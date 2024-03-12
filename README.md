@@ -1,5 +1,7 @@
 # knutvalen-blog-content
 
+Content Management System (CMS) for knutvalen.no.
+
 ## Getting started
 
 1. Create a folder.
